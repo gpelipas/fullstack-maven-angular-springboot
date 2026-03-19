@@ -1,0 +1,115 @@
+    <div class="page-header">
+      <div>
+        <h1>Users</h1>
+        <p class="subtitle">Manage users via the Spring Boot REST API</p>
+      </div>
+      <button class="btn btn-primary" (click)="showCreate()" *ngIf="view === 'list'">
+        + New User
+      </button>
+    </div>
+
+    <!-- Alert -->
+    <div *ngIf="alert" class="alert" [class]="'alert-' + alert.type">
+      {{ alert.message }}
+      <button class="alert-close" (click)="alert = null">×</button>
+    </div>
+
+    <!-- List View -->
+    <div *ngIf="view === 'list'">
+      <div *ngIf="loading" class="loading">
+        <div class="spinner"></div> Loading users...
+      </div>
+
+      <div *ngIf="!loading && users.length === 0" class="empty">
+        <div class="empty-icon">👤</div>
+        <p>No users yet. Create the first one!</p>
+      </div>
+
+      <div *ngIf="!loading && users.length > 0" class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td class="id-col">#{{ user.id }}</td>
+              <td><strong>{{ user.name }}</strong></td>
+              <td class="muted">{{ user.email }}</td>
+              <td>
+                <span class="badge" [class]="'badge-' + (user.role?.toLowerCase() || 'user')">
+                  {{ user.role || 'USER' }}
+                </span>
+              </td>
+              <td class="muted">{{ user.createdAt | date:'mediumDate' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn-sm btn-edit" (click)="showEdit(user)">Edit</button>
+                  <button class="btn-sm btn-delete" (click)="confirmDelete(user)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Create / Edit Form -->
+    <div *ngIf="view === 'create' || view === 'edit'" class="form-card">
+      <h2>{{ view === 'create' ? 'Create User' : 'Edit User' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input formControlName="name" placeholder="Jane Doe" />
+            <div class="field-error" *ngIf="f['name'].touched && f['name'].errors?.['required']">
+              Name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input formControlName="email" type="email" placeholder="jane@example.com" />
+            <div class="field-error" *ngIf="f['email'].touched && f['email'].errors?.['required']">
+              Email is required
+            </div>
+            <div class="field-error" *ngIf="f['email'].touched && f['email'].errors?.['email']">
+              Must be a valid email
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select formControlName="role">
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+            <option value="MANAGER">MANAGER</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="cancelForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || saving">
+            {{ saving ? 'Saving…' : (view === 'create' ? 'Create User' : 'Save Changes') }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div *ngIf="deleteTarget" class="modal-overlay" (click)="deleteTarget = null">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>Delete User?</h3>
+        <p>Are you sure you want to delete <strong>{{ deleteTarget.name }}</strong>? This cannot be undone.</p>
+        <div class="modal-actions">
+          <button class="btn btn-outline" (click)="deleteTarget = null">Cancel</button>
+          <button class="btn btn-danger" (click)="deleteUser()">Delete</button>
+        </div>
+      </div>
+    </div>
