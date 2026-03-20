@@ -37,14 +37,18 @@ Spring Boot automatically serves anything under `classpath:/static/`.
 `WebMvcConfig` forwards unknown routes (e.g. `/users`) → `index.html` for Angular's router.
 
 ---
-
+#### Prerequisites
+- [nvm](https://github.com/nvm-sh/nvm) node version manager
+- Java 17+
+- Maven
+---
 ## Build & Run
 
-### Production — single JAR
+### Run as single JAR
 
 ```bash
 # From the root
-mvn clean install
+./mvnw clean install
 
 # Run
 java -jar backend/target/app.jar
@@ -102,12 +106,12 @@ Angular dev server: **http://localhost:4200**
 
 **User JSON:**
 ```json
-{ "name": "Alice", "email": "alice@example.com", "role": "ADMIN" }
+{ "name": "Zoe", "email": "zoe@pelipas.com", "role": "ADMIN" }
 ```
 
 ---
 
-## Swap H2 → PostgreSQL
+## Convert H2 to PostgreSQL
 
 `backend/src/main/resources/application.properties`:
 ```properties
