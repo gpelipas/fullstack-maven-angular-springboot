@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.example</groupId>
     <artifactId>maven-fullstack</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>Maven Fullstack Application</name>
     <description>Multi-module Maven project with Angular frontend and Spring Boot backend</description>
-
     <modules>
         <module>frontend</module>
         <module>backend</module>
     </modules>
-
     <properties>
-         <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -28,7 +21,6 @@
         <node.version>v20.11.1</node.version>
         <npm.version>10.2.4</npm.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -40,7 +32,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -62,5 +53,4 @@
             </plugins>
         </pluginManagement>
     </build>
-    
 </project>
