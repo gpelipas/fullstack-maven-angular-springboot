@@ -14,7 +14,7 @@ multi-module-project/
 
 ---
 
-## How the single-JAR works
+## Multiple modules distribution inside executable Jar  
 
 ```
 mvn clean install
@@ -56,14 +56,34 @@ Open **http://localhost:8080/h2-console** → H2 Console (JDBC URL: `jdbc:h2:mem
 
 ---
 
+### Development - build
+
+```bash
+# Build Spring Boot backend
+./mvnw -pl backend -amd clean install
+or
+cd backend 
+.././mvnw clean
+
+# Build Angular frontend 
+npm install --prefix frontend/
+or 
+cd frontend
+npm install 
+```
+
+---
+
 ### Development — hot reload
 
 ```bash
 # Terminal 1 — Spring Boot backend
+./mvnw -pl backend -amd spring-boot:run
+or
 cd backend && mvn spring-boot:run
 
 # Terminal 2 — Angular dev server (proxies /api → localhost:8080)
-cd frontend && npm install && npm start
+npm run ng serve --prefix frontend/
 ```
 
 Angular dev server: **http://localhost:4200**
