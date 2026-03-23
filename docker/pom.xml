@@ -12,7 +12,8 @@
     <properties>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
         <docker-jar-name>app</docker-jar-name>
-        <docker-image-name>fullstack-springboot-angular</docker-image-name>        
+        <docker-image-name>gpelipas/fullstack-springboot-angular</docker-image-name>   
+        <docker-image-tag>v1</docker-image-tag>       
     </properties>
 
     <artifactId>docker</artifactId>
@@ -20,38 +21,38 @@
     <name>Docker Image Build</name>
     <description>Builds and pushes the Docker image using the Dockerfile in this module</description>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-version}</version>
-                <configuration>
-                    <repository>${docker-image-name}</repository>
-                    <tag>${project.version}</tag>
-                    <contextDirectory>${project.basedir}</contextDirectory>
-                    <buildArgs>
-                        <JAR_FILE>${docker-jar-name}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build-docker-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>push-docker-image</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+
+    <profiles> 
+		<profile>
+			<id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${dockerfile-maven-version}</version>
+                        <configuration>
+                            <repository>${docker-image-name}</repository>
+                            <tag>${docker-image-tag}</tag>
+                            <contextDirectory>${project.basedir}</contextDirectory>
+                            <buildArgs>
+                                <JAR_FILE>${docker-jar-name}.jar</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build-push-docker-image</id>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+             
+        </profile>
+    </profiles>
 
 </project>
