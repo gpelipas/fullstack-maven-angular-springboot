@@ -6,10 +6,11 @@ A **multi-module Maven project** that produces a **single runnable Spring Boot J
 multi-module-project/
 ├── pom.xml                        ← Parent POM (frontend built before backend)
 ├── backend/                       ← Spring Boot REST API + final fat JAR
-│   └──pom.xml                    ← Depends on frontend JAR (runtime)
+│   └──pom.xml                     ← Depends on frontend JAR (runtime)
 └── frontend/                      ← Angular 17 SPA
     └── pom.xml                    ← Builds Angular → packages into JAR under static/
-
+└── docker/                        ← Docker
+    └── pom.xml                    ← Builds Docker → packages the whole application as docker image 
 ```
 
 ---
@@ -25,16 +26,22 @@ mvn clean install
          │       maven-jar-plugin: packages → frontend-1.0.0-SNAPSHOT.jar
          │                          (contains static/index.html, static/*.js, etc.)
          │
-         └─ [2] backend module
-                 depends on frontend JAR (runtime scope)
-                 spring-boot-maven-plugin repackage:
-                   merges all JARs → BOOT-INF/classes/
-                   Angular files land at BOOT-INF/classes/static/  ← served by Spring Boot
-                 output: backend/target/app.jar  ← single runnable JAR
+         ├─ [2] backend module
+         │        depends on frontend JAR (runtime scope)
+         │        spring-boot-maven-plugin repackage:
+         │         merges all JARs → BOOT-INF/classes/
+         │         Angular files land at BOOT-INF/classes/static/  ← served by Spring Boot
+         │       output: backend/target/app.jar and docker/dist/app.jar ← (single runnable JAR)
+         └─ [3] docker module
+                 runs at the end to package the application as docker image
+                 dockerfile-maven-plugin under docker profile:
+                   Dockerfile → docker image build instruction
+                   docker/dist/app.jar   ← distribution binary as of docker image
+                 output: application docker image is added to local docker images                  
 ```
 
-Spring Boot automatically serves anything under `classpath:/static/`.  
-`WebMvcConfig` forwards unknown routes (e.g. `/users`) → `index.html` for Angular's router.
+Thymeleaf and SpaController handles all static (`classpath:/static/`) for Angular routing,  
+while UserController handles Restful API calls (`/api/**`).
 
 ---
 #### Prerequisites
