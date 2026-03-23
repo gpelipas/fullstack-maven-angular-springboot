@@ -48,6 +48,7 @@ while UserController handles Restful API calls (`/api/**`).
 - [nvm](https://github.com/nvm-sh/nvm) node version manager
 - Java 17+
 - Maven
+- Docker
 ---
 ## Build & Run
 
