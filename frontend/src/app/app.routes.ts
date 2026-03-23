@@ -4,6 +4,6 @@ import { UsersComponent } from './components/users/users.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'users', component: UsersComponent },
+  { path: 'users', loadComponent: () => import("./components/users/users.component").then(m => m.UsersComponent) },
   { path: '**', redirectTo: '' }
 ];
