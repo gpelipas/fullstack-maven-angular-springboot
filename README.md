@@ -7,10 +7,10 @@ multi-module-project/
 ├── pom.xml                        ← Parent POM (frontend built before backend)
 ├── backend/                       ← Spring Boot REST API + final fat JAR
 │   └──pom.xml                     ← Depends on frontend JAR (runtime)
-└── frontend/                      ← Angular 17 SPA
-    └── pom.xml                    ← Builds Angular → packages into JAR under static/
+├── frontend/                      ← Angular 17 SPA
+│   └── pom.xml                    ← Builds Angular → packages into JAR under static/
 └── docker/                        ← Docker
-    └── pom.xml                    ← Builds Docker → packages the whole application as docker image 
+    └── pom.xml                    ← Builds Docker image → packages the whole application as docker image 
 ```
 
 ---
