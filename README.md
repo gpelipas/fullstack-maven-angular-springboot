@@ -93,6 +93,8 @@ cd backend && mvn spring-boot:run
 npm run ng serve --prefix frontend/
 ```
 
+Angular dev server: **http://localhost:4200**
+
 ---
 ### Docker — build and run
 ```bash
@@ -103,9 +105,6 @@ docker build -f docker/Dockerfile -t  fullstack-springboot-angular  .
 docker run -p 8080:8080  fullstack-springboot-angular
 
 ```
-
-
-Angular dev server: **http://localhost:4200**
 
 ---
 
