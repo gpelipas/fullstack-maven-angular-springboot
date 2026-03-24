@@ -10,7 +10,7 @@ multi-module-project/
 ├── frontend/                      ← Angular 17 SPA
 │   └── pom.xml                    ← Builds Angular → packages into JAR under static/
 └── docker/                        ← Docker
-    └── pom.xml                    ← Builds Docker image → packages the whole application as docker image 
+    └── Dockerfile                 ← Contains multi-stage instructions 
 ```
 
 ---
@@ -27,17 +27,12 @@ mvn clean install
          │                          (contains static/index.html, static/*.js, etc.)
          │
          ├─ [2] backend module
-         │        depends on frontend JAR (runtime scope)
-         │        spring-boot-maven-plugin repackage:
-         │         merges all JARs → BOOT-INF/classes/
-         │         Angular files land at BOOT-INF/classes/static/  ← served by Spring Boot
-         │       output: backend/target/app.jar and docker/dist/app.jar ← (single runnable JAR)
-         └─ [3] docker module
-                 runs at the end to package the application as docker image
-                 dockerfile-maven-plugin under docker profile:
-                   Dockerfile → docker image build instruction
-                   docker/dist/app.jar   ← distribution binary as of docker image
-                 output: application docker image is added to local docker images                  
+                 depends on frontend JAR (runtime scope)
+                 spring-boot-maven-plugin repackage:
+                  merges all JARs → BOOT-INF/classes/
+                  Angular files land at BOOT-INF/classes/static/  ← served by Spring Boot
+                output: backend/target/app.jar and docker/dist/app.jar ← (single runnable JAR)
+              
 ```
 
 Thymeleaf and SpaController handles all static (`classpath:/static/`) for Angular routing,  
@@ -97,6 +92,18 @@ cd backend && mvn spring-boot:run
 # Terminal 2 — Angular dev server (proxies /api → localhost:8080)
 npm run ng serve --prefix frontend/
 ```
+
+---
+### Docker — build and run
+```bash
+# Runs the build docker image using docker/Dockerfile
+docker build -f docker/Dockerfile -t  fullstack-springboot-angular  .
+
+# Runs the docker image 
+docker run -p 8080:8080  fullstack-springboot-angular
+
+```
+
 
 Angular dev server: **http://localhost:4200**
 

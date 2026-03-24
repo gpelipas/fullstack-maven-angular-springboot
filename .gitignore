@@ -100,3 +100,10 @@ target/
 ### VS Code ###
 .vscode/
 **/.vscode/
+
+**/target
+**/node_modules
+**/.angular
+**/.node
+**/*.class
+docker/*.jar
