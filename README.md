@@ -101,9 +101,13 @@ Angular dev server: **http://localhost:4200**
 # Runs the build docker image using docker/Dockerfile
 docker build -f docker/Dockerfile -t  fullstack-springboot-angular  .
 
-# Runs the docker image 
-docker run -p 8080:8080  fullstack-springboot-angular
+# Check the application image loaded in the local docker images 
+docker images 
 
+# Runs the application as a container in port 8080 - http://localhost:8080/
+docker run -p 8080:8080  fullstack-springboot-angular
+# ...or in port 80 - http://localhost/
+docker run -p 80:8080  fullstack-springboot-angular
 ```
 
 ---
