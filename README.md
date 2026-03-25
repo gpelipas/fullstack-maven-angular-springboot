@@ -134,8 +134,8 @@ docker run -p 80:8080  fullstack-springboot-angular
 `backend/src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
-spring.datasource.username=myuser
-spring.datasource.password=secret
+spring.datasource.username=${DB_USERID}
+spring.datasource.password=${DB_PASSWORD}
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.h2.console.enabled=false
